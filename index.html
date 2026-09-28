@@ -46,8 +46,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:fle
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const K='vietpath_complete_v2',roles={teacher:'Giáo viên',tutor:'Gia sư',parent:'Phụ huynh',student:'Học sinh'},cats=['Đọc hiểu','Chính tả','Từ và câu','Viết','Luyện tập','Ôn tập','Khác'],avs=['🐰','🦊','🐼','🐯','🐨','🐸','🐱','🐶','🦄','🐻','🐹','🐧'];
-const SUPABASE_URL='https://krxwsxhcznevvrfsxybj.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY='sb_publishable_bJiqUfPOtNCws8p9KB0pHQ_h9HmCXIH';
+const SUPABASE_URL='https://uukwgcgehuqkedoybakz.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_4zpYou43x5KeOGiJjjdh7w_TBbypthW';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
 let session=null;try{session=JSON.parse(sessionStorage.getItem('vp_session')||'null')}catch(e){session=null}let role=session?.role||null,page='home',deferInstall=null,timer={base:300,left:300,id:null};
 let cloud={workspaceId:null,ready:false,busy:false};
@@ -313,7 +313,7 @@ async function registerAccount(e){
   if(password!==password2)return alert('Mật khẩu nhập lại không khớp.');
   if((userRole==='student'||userRole==='parent')&&!linkCode)alert('Bạn có thể đăng ký trước rồi liên kết bằng mã sau.');
   const {data,error}=await sb.auth.signUp({email,password,options:{data:{name,role:userRole}}});
-  if(error)return alert('Đăng ký không thành công: '+error.message);
+  if(error){console.error('Supabase signUp error:',error);return alert('Đăng ký không thành công\n\n'+(error.message||'Lỗi không xác định')+'\n\nMã lỗi: '+(error.code||'không có'));}
   if(linkCode)localStorage.setItem('vp_pending_link',linkCode);
   if(data.session){await finishCloudLogin(data.user);toast('🎉 Đăng ký thành công');}
   else{closeM();alert('🎉 Đăng ký thành công. Nếu Supabase yêu cầu xác nhận email, hãy xác nhận email rồi quay lại đăng nhập.');loginModal(true)}
@@ -437,7 +437,7 @@ function render(){
 }
 
 async function initVietPath(){ensureExtras();const {data:{session:s}}=await sb.auth.getSession();if(s){await finishCloudLogin(s.user)}else{document.querySelector('.app').classList.add('ready');render();setTimeout(()=>loginModal(true),250)}}
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferInstall=e;install.style.display='inline-block'});async function install(){if(deferInstall){deferInstall.prompt();deferInstall=null}else toast('Hãy mở menu trình duyệt và chọn Cài đặt ứng dụng')}if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferInstall=e;const btn=document.querySelector('[onclick="install()"]');if(btn)btn.style.display='inline-block'});async function install(){if(deferInstall){deferInstall.prompt();deferInstall=null}else toast('Hãy mở menu trình duyệt và chọn Cài đặt ứng dụng')}if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 initVietPath();
 </script>
 </body>
