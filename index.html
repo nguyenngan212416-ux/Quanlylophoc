@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1599e8">
+<link rel="manifest" href="manifest.webmanifest">
+<title>VietPath</title>
+<style>
+:root{--sky:#1599e8;--sky2:#087dcc;--light:#eff9ff;--line:#dbeaf3;--text:#12344d;--muted:#667d8d;--mint:#27c59a;--yellow:#ffbd2e;--pink:#ff5f9e;--red:#ef5b68;--purple:#7c5cff}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial;color:var(--text);background:linear-gradient(135deg,#eff9ff,#fff)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh;visibility:hidden}.app.ready{visibility:visible}
+.sidebar{width:255px;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#075d99,#1599e8);color:#fff;padding:16px 12px;overflow:auto;z-index:20}.brand{font-size:23px;font-weight:900;display:flex;gap:10px;align-items:center;padding:8px}.logo{width:44px;height:44px;background:white;color:var(--sky);border-radius:14px;display:grid;place-items:center}.role{background:#ffffff22;padding:10px;border-radius:12px;margin:8px 6px 12px;font-size:12px}.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:#fff;text-align:left;padding:10px;border-radius:11px;font-weight:700}.nav button:hover,.nav button.active{background:#ffffff25}.main{margin-left:255px;width:calc(100% - 255px)}.top{height:70px;position:sticky;top:0;background:#ffffffdd;backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:0 22px;z-index:10}.container{padding:22px;max-width:1500px;margin:auto}.page{display:none}.page.active{display:block}
+.hero,.card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 28px #196b9612}.hero{padding:25px;background:linear-gradient(135deg,#d9f2ff,#fff);position:relative;overflow:hidden}.hero h1{margin:0 0 6px}.sun{position:absolute;right:25px;bottom:-30px;font-size:100px;opacity:.18}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(5,1fr);margin:16px 0}.cards{grid-template-columns:repeat(3,1fr)}.two{grid-template-columns:1fr 1fr}.card{padding:17px}.stat{display:flex;gap:12px;align-items:center}.ico{width:48px;height:48px;border-radius:14px;background:var(--light);display:grid;place-items:center;font-size:24px}.stat strong{display:block;font-size:23px}.muted{color:var(--muted);font-size:13px}.section{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 12px}.actions,.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.btn{border:0;border-radius:11px;padding:10px 13px;font-weight:800}.primary{background:var(--sky2);color:#fff}.soft{background:#d9f2ff;color:#075d99}.mint{background:#ddf8f0;color:#08765b}.yellow{background:#fff1c7;color:#7d5a00}.pink{background:#ffe0ed;color:#a72d5c}.red{background:#ffe1e4;color:#a72b37}.gray{background:#edf3f6;color:#4b6170}.small{padding:7px 10px;font-size:12px}.search{position:relative;flex:1;min-width:220px}.search span{position:absolute;left:12px;top:9px}.search input{width:100%;padding:10px 12px 10px 37px;border:1px solid var(--line);border-radius:11px}.toolbar select,.field input,.field select,.field textarea{padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}.table{overflow:auto;border:1px solid var(--line);border-radius:13px;background:#fff}.table table{width:100%;border-collapse:collapse}.table th,.table td{padding:10px;border-bottom:1px solid #edf3f7;text-align:left;white-space:nowrap}.table th{background:#f1f9fd;font-size:12px}.list{display:grid;gap:9px}.row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);padding:11px;border-radius:13px}.person{display:flex;align-items:center;gap:10px}.avatar{width:42px;height:42px;border-radius:13px;background:#d9f2ff;display:grid;place-items:center;font-size:23px}.tag{display:inline-block;background:#d9f2ff;color:#075d99;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:800;margin:2px}.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}.mini div{background:#eff9ff;padding:8px;text-align:center;border-radius:9px}.modal-bg{display:none;position:fixed;inset:0;background:#082d4099;z-index:100;place-items:center;padding:16px}.modal-bg.open{display:grid}.modal{width:min(820px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:20px}.modal-head{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.modal-body{padding:20px}.modal-foot{padding:15px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}.close{border:0;background:#edf3f6;border-radius:9px;width:34px;height:34px;font-size:20px}.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800}.field textarea{min-height:90px;resize:vertical}.filebox{padding:18px;border:2px dashed #b8e7ff;border-radius:13px;background:#eff9ff}.empty{text-align:center;padding:30px;color:var(--muted);border:1px dashed #b8e7ff;border-radius:13px}.rolegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.rolecard{border:2px solid var(--line);border-radius:14px;padding:14px;background:#fff;text-align:center}.rolecard.active{border-color:var(--sky);background:#eff9ff}.roleicon{font-size:34px}.timer{display:grid;place-items:center;background:#e5f7ff;border-radius:18px;padding:25px}.clock{font-size:58px;font-weight:900;color:#075d99}.toast{display:none;position:fixed;right:16px;bottom:16px;background:#12344d;color:#fff;padding:12px 15px;border-radius:11px;z-index:200}.toast.show{display:block}.mobile{display:none;border:0;background:#d9f2ff;padding:9px;border-radius:9px}
+@media(max-width:1050px){.stats{grid-template-columns:repeat(3,1fr)}.cards{grid-template-columns:repeat(2,1fr)}.rolegrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.sidebar{transform:translateX(-100%);transition:.2s}.sidebar.open{transform:translateX(0)}.main{margin-left:0;width:100%}.mobile{display:block}.container{padding:13px}.stats,.cards,.two{grid-template-columns:1fr}.form{grid-template-columns:1fr}.field.full{grid-column:auto}.top{padding:0 13px}}
+
+.feature-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px}
+.notice-item{display:flex;gap:10px;padding:12px;border-bottom:1px solid #edf3f7}
+.notice-dot{width:10px;height:10px;border-radius:50%;background:var(--sky);margin-top:6px;flex:none}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.calendar-cell{min-height:86px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:7px}
+.calendar-cell.today{border:2px solid var(--sky);background:#eff9ff}
+.calendar-cell b{font-size:12px}.event{display:block;margin-top:5px;background:#d9f2ff;color:#075d99;border-radius:7px;padding:4px;font-size:11px;overflow:hidden}
+.message{padding:12px;border:1px solid var(--line);border-radius:13px;background:#fff}
+.message.mine{background:#eff9ff;margin-left:35px}.message.other{margin-right:35px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;background:#eef7fb;font-size:12px}
+@media(max-width:720px){.calendar-grid{gap:4px}.calendar-cell{min-height:68px;padding:4px}.event{font-size:10px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="side">
+<div class="brand"><div class="logo">🌤️</div>VietPath</div>
+<div class="role">Vai trò: <b id="roleText">Chưa đăng nhập</b></div>
+<nav class="nav">
+<button data-p="home">🏠 Tổng quan</button><button data-p="classes">🏫 Lớp học</button><button data-p="students">👩‍🎓 Học sinh</button><button data-p="materials">📚 Kho học liệu</button><button data-p="assignments">📝 Bài tập</button><button data-p="attendance">📅 Điểm danh</button><button data-p="points">⭐ Điểm thưởng</button><button data-p="badges">🏆 Thành tích</button><button data-p="stats">📊 Thống kê</button><button data-p="calendar">📆 Lịch</button><button data-p="tools">🛠️ Công cụ</button><button data-p="practice">🎯 Luyện tập</button><button data-p="tutor">💼 Gia sư & học phí</button><button data-p="comments">💬 Nhận xét & tin nhắn</button><button data-p="notifications">🔔 Thông báo</button><button data-p="settings">⚙️ Cài đặt</button>
+</nav>
+</aside>
+<main class="main">
+<header class="top"><div style="display:flex;align-items:center;gap:10px"><button class="mobile" id="mobile">☰</button><b id="title">Tổng quan</b></div><div><button class="btn soft small" id="install" style="display:none">📲 Cài app</button><button class="btn gray small" onclick="loginModal()">🔐 Tài khoản</button><button class="btn gray small" onclick="logout()">🚪 Đăng xuất</button></div></header>
+<div class="container">
+<section id="home" class="page active"></section><section id="classes" class="page"></section><section id="students" class="page"></section><section id="materials" class="page"></section><section id="assignments" class="page"></section><section id="attendance" class="page"></section><section id="points" class="page"></section><section id="badges" class="page"></section><section id="stats" class="page"></section><section id="calendar" class="page"></section><section id="tools" class="page"></section><section id="practice" class="page"></section><section id="tutor" class="page"></section><section id="comments" class="page"></section><section id="notifications" class="page"></section><section id="settings" class="page"></section>
+</div></main></div>
+<div class="modal-bg" id="mb"><div class="modal" id="modal"></div></div><div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const K='vietpath_complete_v2',roles={teacher:'Giáo viên',tutor:'Gia sư',parent:'Phụ huynh',student:'Học sinh'},cats=['Đọc hiểu','Chính tả','Từ và câu','Viết','Luyện tập','Ôn tập','Khác'],avs=['🐰','🦊','🐼','🐯','🐨','🐸','🐱','🐶','🦄','🐻','🐹','🐧'];
+const SUPABASE_URL='https://uukwgcgehuqkedoybakz.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_4zpYou43x5KeOGiJjjdh7w_TBbypthW';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+let session=null;try{session=JSON.parse(sessionStorage.getItem('vp_session')||'null')}catch(e){session=null}let role=session?.role||null,page='home',deferInstall=null,timer={base:300,left:300,id:null};
+let cloud={workspaceId:null,ready:false,busy:false};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7),today=()=>new Date().toISOString().slice(0,10),money=n=>new Intl.NumberFormat('vi-VN').format(n||0)+'đ',esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])),dvn=s=>s?new Date(s).toLocaleDateString('vi-VN'):'';
+function seed(){return{classes:[],students:[],materials:[],assignments:[],attendance:[],points:[],badges:[],sessions:[],comments:[],settings:{name:'',year:'2026–2027'},notifications:[],messages:[],events:[],submissions:[]}}
+let db;try{db=JSON.parse(localStorage.getItem(K))||seed()}catch(e){db=seed()}
+function save(){localStorage.setItem(K,JSON.stringify(db));if(cloud.ready&&!cloud.busy)syncPush()}
+function ensureExtras(){
+  db.notifications=db.notifications||[];
+  db.messages=db.messages||[];
+  db.events=db.events||[];
+  db.submissions=db.submissions||[];
+  db.settings=db.settings||{name:session?.name||'',year:'2026–2027'};
+  ['classes','students','materials','assignments','attendance','points','badges','sessions','comments','notifications','messages','events','submissions'].forEach(k=>{if(!Array.isArray(db[k]))db[k]=[]});
+  localStorage.setItem(K,JSON.stringify(db));
+}
+
+function linkedStudentId(){return session?.studentId||''}
+function canManage(){return role==='teacher'||role==='tutor'}
+function canSeeStudent(id){return canManage()||((role==='student'||role==='parent')&&id===linkedStudentId())}
+function canSeeClass(c){return canManage()||!!(c?.studentIds||[]).includes(linkedStudentId())}
+const stu=id=>db.students.find(x=>x.id===id),cl=id=>db.classes.find(x=>x.id===id),pts=id=>db.points.filter(x=>x.studentId===id).reduce((a,x)=>a+(x.type==='negative'?-x.n:x.n),0),cs=c=>c?db.students.filter(s=>c.studentIds.includes(s.id)):[],ar=id=>{let a=db.attendance.filter(x=>x.studentId===id);return a.length?Math.round(a.filter(x=>x.status==='present').length/a.length*100):0};save();
+function toast(x){let t=document.getElementById('toast');t.textContent=x;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+function go(p){page=p;document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.p===p));document.getElementById('title').textContent=document.querySelector(`[data-p="${p}"]`)?.textContent.replace(/^\\S+\\s*/,'')||'VietPath';if(innerWidth<720)side.classList.remove('open')}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.p));mobile.onclick=()=>side.classList.toggle('open');
+function st(i,n,l){return`<div class="card stat"><div class="ico">${i}</div><div><strong>${n}</strong><span class="muted">${l}</span></div></div>`}
+function modal(t,b){document.getElementById('modal').innerHTML=`<div class="modal-head"><h3 style="margin:0">${t}</h3><button class="close" onclick="closeM()">×</button></div><div class="modal-body">${b}</div>`;mb.classList.add('open')}function closeM(){mb.classList.remove('open')}mb.onclick=e=>{if(e.target===mb)closeM()}
+function field(l,n,v='',full=false,ta=false){
+  return `<div class="field ${full?'full':''}">
+    <label>${l}</label>
+    ${ta
+      ? `<textarea name="${n}">${esc(v)}</textarea>`
+      : `<input type="${n==='password'?'password':'text'}" name="${n}" value="${esc(v)}">`
+    }
+  </div>`
+}
+function classCard(c){let s=cs(c),p=s.reduce((a,x)=>a+pts(x.id),0);return`<div class="card"><h3>🌤️ ${esc(c.name)}</h3><span class="tag">Khối ${c.grade}</span><span class="tag">${esc(c.year)}</span><p class="muted">${esc(c.desc||'')}</p><div class="mini"><div><b>${s.length}</b>HS</div><div><b>${p}</b>⭐</div><div><b>${db.assignments.filter(a=>a.classId===c.id).length}</b>bài</div></div><div class="actions">
+  <button class="btn primary small" onclick="openClass('${c.id}')">Mở lớp →</button>
+  ${canManage()?`<button class="btn red small" onclick="deleteClass('${c.id}')">🗑️ Xóa</button>`:''}
+</div></div>`}
+function home(){let fee=db.sessions.reduce((a,x)=>a+x.fee,0),paid=db.sessions.reduce((a,x)=>a+x.paid,0);document.getElementById('home').innerHTML=`<div class="hero"><div class="sun">☀️</div><h1>Xin chào, ${esc(db.settings.name)}! 👋</h1><p>Quản lý dạy và học Tiếng Việt cho giáo viên, gia sư, phụ huynh và học sinh.</p></div><div class="grid stats">${st('👩‍🎓',canManage()?db.students.length:db.students.filter(s=>canSeeStudent(s.id)).length,'Học sinh')}${st('🏫',db.classes.length,'Lớp')}${st('📝',db.assignments.length,'Bài tập')}${st('📅',db.sessions.length,'Buổi học')}${st('💰',money(fee-paid),'Còn thu')}</div><div class="card"><h3>⚡ Thao tác nhanh</h3><div class="actions">${canManage()?'<button class="btn primary" onclick="studentM()">➕ Học sinh</button><button class="btn soft" onclick="materialM()">📚 Học liệu</button><button class="btn mint" onclick="assignmentM()">📝 Giao bài</button><button class="btn yellow" onclick="sessionM()">💰 Buổi học</button>':'<button class="btn primary" onclick="go(&quot;practice&quot;)">🎯 Luyện tập</button><button class="btn soft" onclick="go(&quot;comments&quot;)">💬 Tin nhắn</button>'}</div></div><div class="section"><h2>🏫 Lớp học</h2><button class="btn soft small" onclick="go('classes')">Xem tất cả →</button></div><div class="grid cards">${db.classes.map(classCard).join('')}</div>`}
+function classes(){let q=document.getElementById('cq')?.value?.toLowerCase()||'',ls=db.classes.filter(c=>canSeeClass(c)&&(c.name+c.grade+c.teacher).toLowerCase().includes(q));document.getElementById('classes').innerHTML=`<div class="section"><div><h2>🏫 Lớp học</h2><span class="muted">Quản lý lớp kiểu ClassDojo.</span></div>${canManage()?'<button class="btn primary" onclick="classM()">➕ Tạo lớp</button>':''}</div><div class="toolbar"><div class="search"><span>🔎</span><input id="cq" value="${esc(q)}" placeholder="Tìm lớp..." oninput="classes()"></div></div><div class="grid cards">${ls.map(classCard).join('')||'<div class="empty">Không tìm thấy.</div>'}</div>`}
+function classM(id){let c=id?cl(id):null;modal(id?'✏️ Sửa lớp':'➕ Tạo lớp',`<form onsubmit="saveClass(event,'${id||''}')"><div class="form">${field('Tên lớp','name',c?.name||'4A2')}${field('Khối','grade',c?.grade||'4')}${field('Năm học','year',c?.year||db.settings.year)}${field('Giáo viên/Gia sư','teacher',c?.teacher||db.settings.name)}${field('Mô tả','desc',c?.desc||'',true,true)}</div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">Lưu</button></div></form>`)}
+function saveClass(e,id){
+  e.preventDefault();
+  let f=new FormData(e.target);
+  if(id)
+    Object.assign(cl(id),{
+      name:f.get('name'),
+      grade:f.get('grade'),
+      year:f.get('year'),
+      teacher:f.get('teacher'),
+      desc:f.get('desc')
+    });
+  else
+    db.classes.push({
+      id:uid(),
+      ownerId:session?.id||'',
+      name:f.get('name'),
+      grade:f.get('grade'),
+      year:f.get('year'),
+      teacher:f.get('teacher'),
+      desc:f.get('desc'),
+      studentIds:[]
+    });
+  save();
+  closeM();
+  render();
+  toast('Đã lưu lớp');
+}
+function openClass(id){let c=cl(id);document.getElementById('classes').innerHTML=`<div class="section"><div><button class="btn soft small" onclick="classes()">← Quay lại</button><h2>🌤️ ${esc(c.name)}</h2></div><div class="actions">${canManage()?`<button class="btn primary" onclick="studentM('${id}')">➕ Học sinh</button><button class="btn gray" onclick="classM('${id}')">✏️</button>`:''}</div></div><div class="grid stats">${st('👩‍🎓',cs(c).length,'Học sinh')}${st('⭐',cs(c).reduce((a,s)=>a+pts(s.id),0),'Điểm')}${st('📝',db.assignments.filter(a=>a.classId===id).length,'Bài tập')}${st('📅',db.attendance.filter(a=>a.classId===id&&a.date===today()&&a.status==='present').length,'Có mặt')}${st('🏆',db.badges.filter(b=>b.classId===id).length,'Huy hiệu')}</div><div class="card" style="margin-top:15px"><h3>⭐ Bảng thành tích</h3>${cs(c).sort((a,b)=>pts(b.id)-pts(a.id)).map(s=>`<div class="row"><div class="person"><div class="avatar">${s.avatar}</div><div><b>${esc(s.name)}</b><div class="muted">${ar(s.id)}% chuyên cần</div></div></div><b>⭐ ${pts(s.id)}</b></div>`).join('')}</div>`}
+function students(){let q=document.getElementById('sq')?.value?.toLowerCase()||'',ls=db.students.filter(s=>canSeeStudent(s.id)&&(s.name+s.grade+s.parent).toLowerCase().includes(q));document.getElementById('students').innerHTML=`<div class="section"><h2>👩‍🎓 Học sinh</h2>${canManage()?'<div class="actions"><button class="btn primary" onclick="studentM()">➕ Thêm</button><button class="btn mint" onclick="importX()">📥 Nhập Excel</button><button class="btn soft" onclick="exportX()">📤 Xuất Excel</button></div>':''}</div><div class="toolbar"><div class="search"><span>🔎</span><input id="sq" value="${esc(q)}" placeholder="Tìm học sinh..." oninput="students()"></div></div><div class="list">${ls.map(s=>`<div class="row"><div class="person"><div class="avatar">${s.avatar}</div><div><b>${esc(s.name)}</b><div class="muted">Khối ${s.grade} • ⭐ ${pts(s.id)} • ${ar(s.id)}% chuyên cần</div></div></div><div class="actions"><button class="btn soft small" onclick="profile('${s.id}')">Xem</button>${canManage()?`<button class="btn gray small" onclick="studentM('${s.id}')">✏️</button> <button class="btn red small" onclick="deleteStudent('${s.id}')">🗑️ Xóa</button>`:''}</div></div>`).join('')||'<div class="empty">Không tìm thấy.</div>'}</div>`}
+function studentM(id='',cid=''){let s=id?stu(id):null;modal(s?'✏️ Sửa học sinh':'➕ Thêm học sinh',`<form onsubmit="saveStudent(event,'${id}')"><div class="form">${field('Họ tên','name',s?.name||'Nguyễn Văn A')}${field('Khối','grade',s?.grade||'4')}${field('Số điện thoại','phone',s?.phone||'')}${field('Phụ huynh','parent',s?.parent||'')}${field('Ghi chú','note',s?.note||'',true,true)}<div class="field"><label>Lớp</label><select name="classId"><option value="">-- Không chọn --</option>${db.classes.filter(c=>(role!=='teacher'&&role!=='tutor')||c.ownerId===session?.id).map(c=>`<option value="${c.id}" ${c.id===cid||s?.classIds?.includes(c.id)?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div><div class="field"><label>Avatar</label><select name="avatar">${avs.map(a=>`<option ${a===(s?.avatar||avs[0])?'selected':''}>${a}</option>`).join('')}</select></div></div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">Lưu</button></div></form>`)}
+function saveStudent(e,id){
+  e.preventDefault();
+  let f=new FormData(e.target),cid=f.get('classId');
+  if(id){
+    let s=stu(id);
+    if(!s)return;
+    Object.assign(s,{name:f.get('name'),grade:f.get('grade'),phone:f.get('phone'),parent:f.get('parent'),note:f.get('note'),avatar:f.get('avatar'),classIds:cid?[cid]:[]});
+    db.classes.forEach(c=>{c.studentIds=(c.studentIds||[]).filter(x=>x!==id)});
+    if(cid){let c=cl(cid);if(c){c.studentIds=c.studentIds||[];if(!c.studentIds.includes(id))c.studentIds.push(id)}}
+  }else{
+    let s={id:uid(),ownerId:session?.id||'',name:f.get('name'),grade:f.get('grade'),phone:f.get('phone'),parent:f.get('parent'),note:f.get('note'),avatar:f.get('avatar'),classIds:cid?[cid]:[]};
+    db.students.push(s);
+    if(cid){let c=cl(cid);if(c){c.studentIds=c.studentIds||[];c.studentIds.push(s.id)}}
+  }
+  save();closeM();render();toast('Đã lưu học sinh');
+}
+function profile(id){let s=stu(id);modal('👩‍🎓 '+esc(s.name),`<div class="person"><div class="avatar" style="width:60px;height:60px;font-size:32px">${s.avatar}</div><div><h2 style="margin:0">${esc(s.name)}</h2><div class="muted">⭐ ${pts(id)} • ${ar(id)}% chuyên cần</div></div></div><div class="actions" style="margin:14px 0">${canManage()?`<button class="btn primary" onclick="closeM();pointM('','${id}')">⭐ Điểm</button><button class="btn yellow" onclick="closeM();sessionM('${id}')">💰 Buổi học</button><button class="btn gray" onclick="closeM();studentM('${id}')">✏️ Sửa</button><button class="btn mint" onclick="createLinkCode('${id}')">🔗 Mã liên kết</button>`:''}</div><h3>💬 Nhận xét gần đây</h3>${db.comments.filter(x=>x.studentId===id).slice().reverse().map(x=>`<div class="card" style="margin:7px 0"><b>${dvn(x.date)}</b><p>${esc(x.teacherNote||x.strengths||'')}</p></div>`).join('')||'<div class="empty">Chưa có.</div>'}`)}
+function materials(){let q=document.getElementById('mq')?.value?.toLowerCase()||'',cat=document.getElementById('mc')?.value||'',ls=db.materials.filter(m=>(role!=='teacher'||m.ownerId===session?.id)&&(m.title+m.cat+m.type).toLowerCase().includes(q)&&(!cat||m.cat===cat));document.getElementById('materials').innerHTML=`<div class="section"><div><h2>📚 Kho học liệu</h2><span class="muted">Tải file hoặc gắn link Drive, YouTube, Canva.</span></div>${canManage()?'<button class="btn primary" onclick="materialM()">📤 Đẩy học liệu</button>':''}</div><div class="toolbar"><div class="search"><span>🔎</span><input id="mq" value="${esc(q)}" placeholder="Tìm học liệu..." oninput="materials()"></div><select id="mc" onchange="materials()"><option value="">Tất cả</option>${cats.map(c=>`<option ${c===cat?'selected':''}>${c}</option>`).join('')}</select></div><div class="grid cards">${ls.map(m=>{let i=m.type==='file'?'📎':m.type==='youtube'?'▶️':m.type==='drive'?'☁️':m.type==='canva'?'🎨':m.type==='external'?'🔗':'📝';return`<div class="card"><div style="font-size:35px">${i}</div><span class="tag">${esc(m.cat)}</span><h3>${esc(m.title)}</h3><div class="muted">${m.type==='file'?esc(m.fileName):m.type}</div><p>${esc(m.content||'')}</p><div class="actions">${m.type==='file'?`<button class="btn soft small" onclick="downloadFile('${m.id}')">⬇️ Tải file</button>`:m.type==='internal'?`<button class="btn soft small" onclick="viewMat('${m.id}')">📖 Xem</button>`:`<a class="btn soft small" href="${esc(m.url)}" target="_blank" rel="noopener">Mở ↗</a>`}${canManage()?`<button class="btn gray small" onclick="materialM('${m.id}')">✏️</button><button class="btn red small" onclick="del('materials','${m.id}')">🗑️</button>`:''}</div></div>`}).join('')||'<div class="empty">Chưa có học liệu.</div>'}</div>`}
+function materialM(id=''){let m=id?db.materials.find(x=>x.id===id):null;modal(m?'✏️ Sửa học liệu':'📤 Đẩy học liệu',`<form onsubmit="saveMaterial(event,'${id}')"><div class="form">${field('Tên học liệu','title',m?.title||'Phiếu đọc hiểu') }<div class="field"><label>Phân loại</label><select name="cat">${cats.map(c=>`<option ${c===(m?.cat||'Đọc hiểu')?'selected':''}>${c}</option>`).join('')}</select></div><div class="field full"><label>Loại</label><select id="mtype" name="type" onchange="mtChange(this.value)"><option value="internal" ${m?.type==='internal'||!m?'selected':''}>📝 Nội dung trong app</option><option value="file" ${m?.type==='file'?'selected':''}>📎 Tải file</option><option value="drive" ${m?.type==='drive'?'selected':''}>☁️ Google Drive</option><option value="youtube" ${m?.type==='youtube'?'selected':''}>▶️ YouTube</option><option value="canva" ${m?.type==='canva'?'selected':''}>🎨 Canva</option><option value="external" ${m?.type==='external'?'selected':''}>🔗 Website</option></select></div><div id="mfile" class="field full" style="display:${m?.type==='file'?'grid':'none'}"><label>Chọn file</label><div class="filebox"><input id="file" type="file"><div class="muted">Prototype: file tối đa 5MB. File lớn nên dùng Drive.</div></div></div><div id="murl" class="field full" style="display:${m&&m.type!=='internal'&&m.type!=='file'?'grid':'none'}"><label>Link ngoài</label><input name="url" value="${esc(m?.url||'')}" placeholder="https://drive.google.com/... hoặc https://youtube.com/..."></div>${field('Mô tả / nội dung','content',m?.content||'',true,true)}</div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">💾 Lưu</button></div></form>`)}
+function mtChange(v){mfile.style.display=v==='file'?'grid':'none';murl.style.display=v!=='file'&&v!=='internal'?'grid':'none'}
+function validUrl(u){try{let x=new URL(u);return x.protocol==='http:'||x.protocol==='https:'}catch{return false}}
+function saveMaterial(e,id){e.preventDefault();let f=new FormData(e.target),type=f.get('type'),file=document.getElementById('file')?.files?.[0],old=id?db.materials.find(x=>x.id===id):null;if(type!=='internal'&&type!=='file'&&!validUrl(f.get('url')))return alert('Link phải bắt đầu bằng http:// hoặc https://');let o={id:id||uid(),ownerId:old?.ownerId||session?.id||'',title:f.get('title'),cat:f.get('cat'),type,content:f.get('content'),url:f.get('url')||old?.url||'',fileName:old?.fileName||'',fileData:old?.fileData||'',size:old?.size||0};;if(file){if(file.size>5*1024*1024)return alert('File >5MB. Hãy dùng Google Drive rồi gắn link.');let r=new FileReader;r.onload=()=>{o.fileName=file.name;o.fileData=r.result;o.size=file.size;finishMat(o,id)};r.readAsDataURL(file)}else finishMat(o,id)}
+function finishMat(o,id){if(id)Object.assign(db.materials.find(x=>x.id===id),o);else db.materials.push(o);save();closeM();render();toast('Đã lưu học liệu')}function viewMat(id){let m=db.materials.find(x=>x.id===id);modal('📖 '+esc(m.title),`<div class="card">${esc(m.content||'Chưa có nội dung.')}</div>`)}function downloadFile(id){let m=db.materials.find(x=>x.id===id);let a=document.createElement('a');a.href=m.fileData;a.download=m.fileName||'hoc-lieu';a.click()}
+function assignments(){let q=document.getElementById('aq')?.value?.toLowerCase()||'',ls=db.assignments.filter(a=>(role!=='teacher'||a.ownerId===session?.id)&&(a.title+a.cat).toLowerCase().includes(q));document.getElementById('assignments').innerHTML=`<div class="section"><h2>📝 Bài tập</h2>${canManage()?'<button class="btn primary" onclick="assignmentM()">➕ Giao bài</button>':''}</div><div class="toolbar"><div class="search"><span>🔎</span><input id="aq" value="${esc(q)}" placeholder="Tìm bài..." oninput="assignments()"></div></div><div class="list">${ls.slice().reverse().map(a=>`<div class="row"><div><b>📝 ${esc(a.title)}</b><div class="muted"><span class="tag">${esc(a.cat)}</span> Hạn ${dvn(a.due)}</div></div><div class="actions">${a.type==='external'?`<a class="btn soft small" href="${esc(a.url)}" target="_blank">Mở ↗</a>`:''}${canManage()?`<button class="btn red small" onclick="del('assignments','${a.id}')">🗑️</button>`:''}</div></div>`).join('')||'<div class="empty">Chưa có bài.</div>'}</div>`}
+function assignmentM(){modal('📝 Giao bài',`<form onsubmit="saveAssignment(event)"><div class="form">${field('Tên bài','title','Phiếu đọc hiểu')}<div class="field"><label>Phân loại</label><select name="cat">${cats.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="field"><label>Giao cho</label><select name="target" id="target" onchange="targetChange(this.value)"><option value="class">Cả lớp</option><option value="student">Một học sinh</option></select></div><div class="field"><label>Đối tượng</label><select name="targetId" id="targetId">${db.classes.map(c=>`<option value="${c.id}">Lớp ${esc(c.name)}</option>`).join('')}</select></div><div class="field"><label>Hạn nộp</label><input type="date" name="due" value="${today()}"></div><div class="field"><label>Loại</label><select name="type"><option value="internal">Nội dung trong app</option><option value="external">Link ngoài</option></select></div>${field('Nội dung / Link','content','',true,true)}</div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">Giao bài</button></div></form>`)}
+function targetChange(v){targetId.innerHTML=v==='class'?db.classes.map(c=>`<option value="${c.id}">Lớp ${esc(c.name)}</option>`).join(''):db.students.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}
+function saveAssignment(e){e.preventDefault();let f=new FormData(e.target),type=f.get('type'),content=f.get('content');if(type==='external'&&!validUrl(content))return alert('Link phải bắt đầu bằng http:// hoặc https://');db.assignments.push({id:uid(),ownerId:session?.id||'',title:f.get('title'),cat:f.get('cat'),target:f.get('target'),targetId:f.get('targetId'),due:f.get('due'),type,url:type==='external'?content:'',content:type==='internal'?content:'',done:[]});save();closeM();render();toast('Đã giao bài')}
+function attendance(){let q=document.getElementById('atq')?.value?.toLowerCase()||'',ls=db.attendance.filter(a=>canSeeStudent(a.studentId)&&((stu(a.studentId)?.name||'').toLowerCase().includes(q)||a.date.includes(q)));document.getElementById('attendance').innerHTML=`<div class="section"><h2>📅 Điểm danh</h2>${canManage()?'<button class="btn primary" onclick="attendanceM()">➕ Điểm danh</button>':''}</div><div class="toolbar"><div class="search"><span>🔎</span><input id="atq" value="${esc(q)}" placeholder="Tìm học sinh/ngày..." oninput="attendance()"></div></div><div class="table"><table><tr><th>Ngày</th><th>Học sinh</th><th>Lớp</th><th>Trạng thái</th><th>Ghi chú</th></tr>${ls.slice().reverse().map(a=>`<tr><td>${dvn(a.date)}</td><td>${esc(stu(a.studentId)?.name||'')}</td><td>${esc(cl(a.classId)?.name||'')}</td><td><span class="tag">${a.status==='present'?'Có mặt':a.status==='late'?'Đi muộn':'Vắng'}</span></td><td>${esc(a.note)}</td></tr>`).join('')}</table></div>`}
+function attendanceM(){let c=db.classes[0];modal('📅 Điểm danh',`<form onsubmit="saveAttendance(event)"><div class="form"><div class="field"><label>Lớp</label><select name="classId" onchange="loadAt(this.value)">${db.classes.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')}</select></div><div class="field"><label>Ngày</label><input type="date" name="date" value="${today()}"></div><div class="field"><label>Học sinh</label><select name="studentId" id="ats">${cs(c).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></div><div class="field"><label>Trạng thái</label><select name="status"><option value="present">Có mặt</option><option value="late">Đi muộn</option><option value="absent">Vắng</option></select></div>${field('Ghi chú','note','',true,true)}</div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">Lưu</button></div></form>`)}
+function loadAt(id){ats.innerHTML=cs(cl(id)).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}function saveAttendance(e){e.preventDefault();let f=new FormData(e.target);db.attendance.push({id:uid(),ownerId:session?.id||'',classId:f.get('classId'),studentId:f.get('studentId'),date:f.get('date'),status:f.get('status'),note:f.get('note')});save();closeM();render();toast('Đã điểm danh')}
+function pointsPage(){let q=document.getElementById('pq')?.value?.toLowerCase()||'',ls=db.points.filter(p=>canSeeStudent(p.studentId)&&((stu(p.studentId)?.name||'').toLowerCase().includes(q)||(p.reason||'').toLowerCase().includes(q)));document.getElementById('points').innerHTML=`<div class="section"><h2>⭐ Điểm thưởng</h2>${canManage()?'<button class="btn primary" onclick="pointM()">⭐ Tặng điểm</button>':''}</div><div class="toolbar"><div class="search"><span>🔎</span><input id="pq" value="${esc(q)}" placeholder="Tìm..." oninput="pointsPage()"></div></div><div class="list">${ls.slice().reverse().map(p=>`<div class="row"><span>${stu(p.studentId)?.avatar||'👤'} ${esc(stu(p.studentId)?.name||'')} — ${esc(p.reason)}</span><b>${p.type==='negative'?'-':'+'}${p.n} ⭐</b></div>`).join('')||'<div class="empty">Chưa có.</div>'}</div>`}
+function pointM(clsid='',sid=''){modal('⭐ Tặng điểm',`<form onsubmit="savePoint(event)"><div class="form"><div class="field"><label>Lớp</label><select name="classId">${db.classes.map(c=>`<option value="${c.id}" ${c.id===clsid?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div><div class="field"><label>Học sinh</label><select name="studentId">${db.students.map(s=>`<option value="${s.id}" ${s.id===sid?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div><div class="field"><label>Điểm</label><input type="number" name="n" min="1" value="1"></div><div class="field"><label>Loại</label><select name="type"><option value="positive">Cộng</option><option value="negative">Trừ</option></select></div>${field('Lý do','reason','Phát biểu tốt',true)}</div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">Lưu</button></div></form>`)}function savePoint(e){e.preventDefault();let f=new FormData(e.target);db.points.push({id:uid(),ownerId:session?.id||'',classId:f.get('classId'),studentId:f.get('studentId'),n:+f.get('n'),reason:f.get('reason'),type:f.get('type')});save();closeM();render();toast('Đã cập nhật điểm')}
+function badges(){document.getElementById('badges').innerHTML=`<div class="section"><h2>🏆 Thành tích</h2>${canManage()?'<button class="btn yellow" onclick="badgeM()">🏆 Trao huy hiệu</button>':''}</div><div class="grid cards">${[['📖','Siêu đọc hiểu'],['✍️','Ngòi bút vàng'],['🗣️','Nhà hùng biện nhí'],['🔤','Bậc thầy từ và câu'],['🌟','Tiến bộ mỗi ngày'],['🤝','Bạn học tích cực']].map(x=>`<div class="card" style="text-align:center"><div style="font-size:45px">${x[0]}</div><b>${x[1]}</b></div>`).join('')}</div><div class="card" style="margin-top:14px"><h3>Huy hiệu đã trao</h3>${db.badges.map(b=>`<div class="row"><span>${b.icon} ${esc(stu(b.studentId)?.name||'')} — ${esc(b.name)}</span><span class="muted">${dvn(b.date)}</span></div>`).join('')||'<div class="empty">Chưa có.</div>'}</div>`}
+function badgeM(){let bs=[['📖','Siêu đọc hiểu'],['✍️','Ngòi bút vàng'],['🗣️','Nhà hùng biện nhí'],['🔤','Bậc thầy từ và câu'],['🌟','Tiến bộ mỗi ngày'],['🤝','Bạn học tích cực']];modal('🏆 Trao huy hiệu',`<form onsubmit="saveBadge(event)"><div class="form"><div class="field"><label>Học sinh</label><select name="studentId">${db.students.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></div><div class="field"><label>Huy hiệu</label><select name="name">${bs.map(x=>`<option value="${x[1]}">${x[0]} ${x[1]}</option>`).join('')}</select></div></div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn yellow">Trao</button></div></form>`)}function saveBadge(e){e.preventDefault();let f=new FormData(e.target),icons={'Siêu đọc hiểu':'📖','Ngòi bút vàng':'✍️','Nhà hùng biện nhí':'🗣️','Bậc thầy từ và câu':'🔤','Tiến bộ mỗi ngày':'🌟','Bạn học tích cực':'🤝'};db.badges.push({id:uid(),studentId:f.get('studentId'),name:f.get('name'),icon:icons[f.get('name')],date:today()});save();closeM();render();toast('Đã trao huy hiệu')}
+function stats(){let total=db.sessions.filter(x=>(role!=='teacher'&&role!=='tutor')||x.ownerId===session?.id).reduce((a,x)=>a+x.fee,0),paid=db.sessions.filter(x=>(role!=='teacher'&&role!=='tutor')||x.ownerId===session?.id).reduce((a,x)=>a+x.paid,0);document.getElementById('stats').innerHTML=`<div class="section"><h2>📊 Thống kê</h2></div><div class="grid stats">${st('👩‍🎓',canManage()?db.students.length:db.students.filter(s=>canSeeStudent(s.id)).length,'Học sinh')}${st('📝',db.assignments.length,'Bài tập')}${st('📅',db.attendance.filter(x=>x.status==='present').length,'Lượt có mặt')}${st('⭐',db.points.reduce((a,x)=>a+(x.type==='negative'?-x.n:x.n),0),'Điểm ròng')}${st('🏆',db.badges.length,'Huy hiệu')}</div><div class="grid two"><div class="card"><h3>💰 Học phí</h3><p>Tổng: <b>${money(total)}</b></p><p>Đã thu: <b>${money(paid)}</b></p><p>Còn: <b class="danger">${money(total-paid)}</b></p></div><div class="card"><h3>📅 Chuyên cần</h3>${db.students.filter(s=>canSeeStudent(s.id)).map(s=>`<p>${s.avatar} <b>${esc(s.name)}</b> — ${ar(s.id)}%</p>`).join('')}</div></div>`}
+function tools(){document.getElementById('tools').innerHTML=`<div class="section"><h2>🛠️ Công cụ lớp học</h2></div><div class="grid two"><div class="card"><h3>🎲 Random học sinh</h3><select id="rc">${db.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select><div style="font-size:30px;font-weight:900;text-align:center;padding:25px" id="rr">?</div><button class="btn primary" onclick="random()">🎲 Chọn</button></div><div class="card"><h3>👥 Chia nhóm</h3><select id="gc">${db.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select><input id="gn" type="number" min="2" max="10" value="3" style="width:60px;padding:8px"><div id="gr" style="margin:12px 0"></div><button class="btn mint" onclick="groups()">Chia nhóm</button></div></div><div class="card" style="margin-top:14px"><h3>⏱️ Đồng hồ</h3><div class="actions"><button class="btn soft small" onclick="setT(60)">1p</button><button class="btn soft small" onclick="setT(180)">3p</button><button class="btn soft small" onclick="setT(300)">5p</button><button class="btn soft small" onclick="setT(600)">10p</button></div><div class="timer"><div class="clock" id="clock">05:00</div><div class="actions"><button class="btn primary" onclick="startT()">▶</button><button class="btn yellow" onclick="pauseT()">⏸</button><button class="btn gray" onclick="resetT()">↻</button></div></div></div>`;clock.textContent=fmt(timer.left)}
+function random(){let s=cs(cl(rc.value));if(s.length){let x=s[Math.floor(Math.random()*s.length)];rr.textContent=x.avatar+' '+x.name}}function groups(){let s=[...cs(cl(gc.value))].sort(()=>Math.random()-.5),n=+gn.value,g=Array.from({length:n},()=>[]);s.forEach((x,i)=>g[i%n].push(x));gr.innerHTML='<div class="grid cards">'+g.map((a,i)=>`<div class="card"><b>Nhóm ${i+1}</b>${a.map(s=>`<p>${s.avatar} ${esc(s.name)}</p>`).join('')}</div>`).join('')+'</div>'}function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}function setT(s){pauseT();timer.base=s;timer.left=s;clock.textContent=fmt(s)}function startT(){if(timer.id)return;timer.id=setInterval(()=>{timer.left--;clock.textContent=fmt(timer.left);if(timer.left<=0){pauseT();toast('⏰ Hết giờ!')}},1000)}function pauseT(){clearInterval(timer.id);timer.id=null}function resetT(){pauseT();timer.left=timer.base;clock.textContent=fmt(timer.left)}
+function tutor(){let q=document.getElementById('tq')?.value?.toLowerCase()||'',ls=db.sessions.filter(x=>canSeeStudent(x.studentId)&&((stu(x.studentId)?.name||'').toLowerCase().includes(q)||(x.topic||'').toLowerCase().includes(q)));let mySessions=canManage()?db.sessions.filter(x=>x.ownerId===session?.id):db.sessions.filter(x=>canSeeStudent(x.studentId)),total=mySessions.reduce((a,x)=>a+x.fee,0),paid=mySessions.reduce((a,x)=>a+x.paid,0);document.getElementById('tutor').innerHTML=`<div class="section"><div><h2>💼 Gia sư & học phí</h2><span class="muted">Gia sư có thể cài app và quản lý học sinh, buổi học, học phí.</span></div>${role==='teacher'||role==='tutor'?'<button class="btn primary" onclick="sessionM()">➕ Buổi học</button>':''}</div><div class="grid stats">${st('📅',mySessions.length,'Buổi')}${st('💰',money(total),'Tổng')}${st('✅',money(paid),'Đã thu')}${st('⏳',money(total-paid),'Còn nợ')}${st('👩‍🎓',db.students.filter(s=>canSeeStudent(s.id)).length,'Học sinh')}</div><div class="toolbar"><div class="search"><span>🔎</span><input id="tq" value="${esc(q)}" placeholder="Tìm học sinh, nội dung..." oninput="tutor()"></div></div><div class="table"><table><tr><th>Ngày</th><th>Học sinh</th><th>Nội dung</th><th>Phút</th><th>Học phí</th><th>Đã thu</th><th>Còn</th><th></th></tr>${ls.slice().reverse().map(x=>`<tr><td>${dvn(x.date)}</td><td>${esc(stu(x.studentId)?.name||'')}</td><td>${esc(x.topic)}</td><td>${x.minutes}</td><td>${money(x.fee)}</td><td>${money(x.paid)}</td><td>${money(x.fee-x.paid)}</td><td><button class="btn soft small" onclick="commentM('${x.id}')">💬</button><button class="btn red small" onclick="del('sessions','${x.id}')">🗑️</button></td></tr>`).join('')}</table></div>`}
+function sessionM(sid=''){let s=sid?stu(sid):db.students[0];modal('💰 Buổi học',`<form onsubmit="saveSession(event)"><div class="form"><div class="field"><label>Học sinh</label><select name="studentId">${db.students.filter(x=>(role!=='teacher'&&role!=='tutor')||x.ownerId===session?.id).map(x=>`<option value="${x.id}" ${x.id===s?.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></div><div class="field"><label>Ngày</label><input type="date" name="date" value="${today()}"></div><div class="field"><label>Số phút</label><input type="number" name="minutes" value="90"></div><div class="field"><label>Học phí</label><input type="number" name="fee" value="150000"></div><div class="field"><label>Đã thu</label><input type="number" name="paid" value="150000"></div>${field('Nội dung','topic','Đọc hiểu')}${field('Ghi chú','note','',true,true)}</div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">Lưu</button></div></form>`)}
+function saveSession(e){e.preventDefault();let f=new FormData(e.target),sid=f.get('studentId'),o={id:uid(),ownerId:session?.id||'',date:f.get('date'),studentId:sid,minutes:+f.get('minutes'),fee:+f.get('fee'),paid:+f.get('paid'),topic:f.get('topic'),note:f.get('note'),classId:stu(sid)?.classIds?.[0]||''};db.sessions.push(o);save();closeM();render();setTimeout(()=>commentM(o.id),100)}
+function commentM(id){let x=db.sessions.find(s=>s.id===id),old=db.comments.find(c=>c.sessionId===id)||{};modal('💬 Nhận xét sau buổi học',`<form onsubmit="saveComment(event,'${id}')"><div class="form">${field('Điểm mạnh','strengths',old.strengths||'',true,true)}${field('Cần cải thiện','needs',old.needs||'',true,true)}${field('Nhận xét','teacherNote',old.teacherNote||'',true,true)}${field('Bài tập về nhà','homework',old.homework||'',true,true)}</div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">Lưu nhận xét</button></div></form>`)}
+function saveComment(e,id){e.preventDefault();let f=new FormData(e.target),x=db.sessions.find(s=>s.id===id),o={id:uid(),sessionId:id,studentId:x.studentId,date:x.date,topic:x.topic,strengths:f.get('strengths'),needs:f.get('needs'),teacherNote:f.get('teacherNote'),homework:f.get('homework')},old=db.comments.find(c=>c.sessionId===id);if(old)Object.assign(old,o);else db.comments.push(o);save();closeM();render();toast('Đã lưu nhận xét')}
+
+function practice(){
+  const mine=role==='student'
+    ? db.assignments.filter(a=>a.target==='student' && a.targetId===currentStudentId())
+      .concat(db.assignments.filter(a=>a.target==='class' && db.classes.some(c=>c.id===a.targetId && c.studentIds?.includes(currentStudentId()))))
+    : db.assignments;
+  const rows=mine.slice().reverse();
+  document.getElementById('practice').innerHTML=
+  `<div class="section"><div><h2>🎯 Luyện tập</h2><span class="muted">Bài tập tương tác và kết quả làm bài.</span></div>${canManage()?'<button class="btn primary" onclick="practiceM()">➕ Tạo bài luyện tập</button>':''}</div>
+   <div class="grid cards">${rows.map(a=>{
+      const sub=db.submissions.find(s=>s.assignmentId===a.id && s.studentId===currentStudentId());
+      return `<div class="feature-card"><span class="tag">${esc(a.cat||'Luyện tập')}</span><h3>${esc(a.title)}</h3><p class="muted">Hạn: ${dvn(a.due)||'Không đặt'}</p>
+      <p>${sub?`🟢 Đã nộp · ${sub.score!=null?sub.score+' điểm':'chờ chấm'}`:`⚪ Chưa nộp`}</p>
+      ${role==='student'?`<button class="btn primary small" onclick="submitPractice('${a.id}')">${sub?'Xem bài nộp':'Làm / nộp bài'}</button>`:`<button class="btn soft small" onclick="viewSubmissions('${a.id}')">Xem bài nộp</button>`}</div>`
+   }).join('')||'<div class="empty">Chưa có bài luyện tập.</div>'}</div>`;
+}
+function currentStudentId(){return linkedStudentId()||db.students?.[0]?.id||''}
+function practiceM(){
+  modal('🎯 Tạo bài luyện tập',`<form onsubmit="savePractice(event)"><div class="form">
+  ${field('Tên bài','title','Luyện tập đọc hiểu')}
+  <div class="field"><label>Dạng bài</label><select name="kind"><option>Trắc nghiệm</option><option>Đúng / Sai</option><option>Điền từ</option><option>Tự luận</option><option>Đọc hiểu</option></select></div>
+  ${field('Nội dung / câu hỏi','content','Nhập câu hỏi và hướng dẫn...',true,true)}
+  ${field('Đáp án (nếu có)','answer','',true,true)}
+  </div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">Lưu bài</button></div></form>`);
+}
+function savePractice(e){
+  e.preventDefault();let f=new FormData(e.target);
+  db.assignments.push({id:uid(),title:f.get('title'),cat:'Luyện tập',target:'class',targetId:db.classes[0]?.id||'',due:today(),type:'internal',content:`${f.get('kind')}\n${f.get('content')}\nĐáp án: ${f.get('answer')}`,done:[]});
+  save();closeM();render();go('practice');toast('Đã tạo bài luyện tập');
+}
+function submitPractice(id){
+  const a=db.assignments.find(x=>x.id===id),old=db.submissions.find(x=>x.assignmentId===id&&x.studentId===currentStudentId());
+  modal(old?'📄 Bài đã nộp':'📝 Nộp bài',`<form onsubmit="saveSubmission(event,'${id}')">
+  <div class="notice">📌 ${esc(a?.title||'Bài tập')}<br><span class="muted">${esc(a?.content||'')}</span></div>
+  ${field('Câu trả lời / bài làm','answer',old?.answer||'',true,true)}
+  <div class="field full"><label>Ảnh hoặc file bài làm</label><input type="file" id="subFile"></div>
+  <div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Đóng</button>${role==='student'?'<button class="btn primary">📤 Nộp bài</button>':''}</div></form>`);
+}
+function saveSubmission(e,id){
+  e.preventDefault();let f=new FormData(e.target),old=db.submissions.find(s=>s.assignmentId===id&&s.studentId===currentStudentId());
+  const o={id:old?.id||uid(),assignmentId:id,studentId:currentStudentId(),answer:f.get('answer'),date:today(),score:old?.score??null,feedback:old?.feedback||'',fileName:document.getElementById('subFile')?.files?.[0]?.name||old?.fileName||''};
+  if(old)Object.assign(old,o);else db.submissions.push(o);
+  db.notifications.unshift({id:uid(),title:'Bài tập đã được nộp',body:`${stu(o.studentId)?.name||'Học sinh'} đã nộp ${db.assignments.find(a=>a.id===id)?.title||'bài tập'}.`,date:today(),read:false,type:'submission'});
+  save();closeM();render();go('practice');toast('Đã nộp bài');
+}
+function viewSubmissions(id){
+  const a=db.assignments.find(x=>x.id===id),ls=db.submissions.filter(s=>s.assignmentId===id);
+  modal('📥 Bài nộp',`<h3>${esc(a?.title||'')}</h3>${ls.map(s=>`<div class="feature-card" style="margin:8px 0"><b>${esc(stu(s.studentId)?.name||'')}</b><p>${esc(s.answer||'Không có nội dung')}</p><span class="chip">📅 ${dvn(s.date)}</span> ${s.fileName?`<span class="chip">📎 ${esc(s.fileName)}</span>`:''}<button class="btn soft small" style="float:right" onclick="gradeSubmission('${s.id}')">Chấm</button></div>`).join('')||'<div class="empty">Chưa có bài nộp.</div>'}<div class="modal-foot"><button class="btn gray" onclick="closeM()">Đóng</button></div>`);
+}
+function gradeSubmission(id){
+  const s=db.submissions.find(x=>x.id===id); if(!s)return;
+  modal('⭐ Chấm bài',`<form onsubmit="saveGrade(event,'${id}')">${field('Điểm','score',s.score??'')}${field('Nhận xét','feedback',s.feedback||'',true,true)}<div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">Lưu</button></div></form>`);
+}
+function saveGrade(e,id){
+  e.preventDefault();let f=new FormData(e.target),s=db.submissions.find(x=>x.id===id);s.score=Number(f.get('score'));s.feedback=f.get('feedback');
+  db.notifications.unshift({id:uid(),title:'Bài đã được chấm',body:`${stu(s.studentId)?.name||'Học sinh'} nhận ${s.score} điểm.`,date:today(),read:false,type:'grade'});
+  save();closeM();render();go('practice');toast('Đã chấm bài');
+}
+function calendar(){
+  const base=new Date(),y=base.getFullYear(),m=base.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),start=(first.getDay()+6)%7;
+  let cells='';for(let i=0;i<start;i++)cells+='<div class="calendar-cell"></div>';
+  for(let d=1;d<=last.getDate();d++){
+    const iso=new Date(y,m,d).toISOString().slice(0,10),ev=db.events.filter(e=>e.date===iso),is=iso===today();
+    cells+=`<div class="calendar-cell ${is?'today':''}"><b>${d}</b>${ev.map(e=>`<span class="event">📌 ${esc(e.title)}</span>`).join('')}</div>`;
+  }
+  document.getElementById('calendar').innerHTML=`<div class="section"><div><h2>📆 Lịch</h2><span class="muted">Lịch lớp, hạn nộp và lịch gia sư.</span></div>${canManage()?'<button class="btn primary" onclick="eventM()">＋ Thêm lịch</button>':''}</div>
+  <div class="card"><div class="calendar-grid">${['T2','T3','T4','T5','T6','T7','CN'].map(x=>`<div class="muted" style="text-align:center;font-weight:800">${x}</div>`).join('')}${cells}</div></div>
+  <div class="section"><h3>📌 Sự kiện sắp tới</h3></div><div class="list">${db.events.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(e=>`<div class="row"><div><b>${esc(e.title)}</b><div class="muted">${dvn(e.date)} · ${esc(e.time||'')}</div></div><button class="btn red small" onclick="del('events','${e.id}')">Xóa</button></div>`).join('')}</div>`;
+}
+function eventM(){
+  modal('📆 Thêm lịch',`<form onsubmit="saveEvent(event)"><div class="form">${field('Tên sự kiện','title','Buổi học')}${field('Giờ','time','19:00')}<div class="field"><label>Ngày</label><input name="date" type="date" value="${today()}"></div><div class="field"><label>Loại</label><select name="type"><option>class</option><option>tutor</option><option>assignment</option><option>other</option></select></div></div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">Lưu</button></div></form>`);
+}
+function saveEvent(e){
+ e.preventDefault();let f=new FormData(e.target);db.events.push({id:uid(),title:f.get('title'),date:f.get('date'),time:f.get('time'),type:f.get('type')});save();closeM();render();go('calendar');toast('Đã thêm lịch');
+}
+function notifications(){
+  const unread=db.notifications.filter(n=>!n.read).length;
+  document.getElementById('notifications').innerHTML=`<div class="section"><div><h2>🔔 Thông báo</h2><span class="muted">${unread} thông báo chưa đọc</span></div><button class="btn soft" onclick="readAll()">✓ Đánh dấu đã đọc</button></div>
+  <div class="card">${db.notifications.slice().reverse().map(n=>`<div class="notice-item" style="opacity:${n.read?.6:1}"><div class="notice-dot"></div><div><b>${esc(n.title)}</b><p style="margin:4px 0">${esc(n.body)}</p><span class="muted">${dvn(n.date)}</span></div></div>`).join('')||'<div class="empty">Không có thông báo.</div>'}</div>`;
+}
+function readAll(){db.notifications.forEach(n=>n.read=true);save();render();go('notifications');toast('Đã đọc tất cả')}
+
+function messages(){
+  document.getElementById('comments').innerHTML=`<div class="section"><div><h2>💬 Nhận xét & tin nhắn</h2><span class="muted">Trao đổi giữa giáo viên, gia sư, phụ huynh và học sinh.</span></div><button class="btn primary" onclick="messageM()">✉️ Tin nhắn mới</button></div>
+  <div class="grid two"><div><h3>💬 Trao đổi</h3><div class="list">${db.messages.slice().reverse().map(m=>`<div class="message ${m.from===roles[role]?'mine':'other'}"><b>${esc(m.from)} → ${esc(m.to)}</b><p>${esc(m.text)}</p><span class="muted">${dvn(m.date)}</span></div>`).join('')||'<div class="empty">Chưa có tin nhắn.</div>'}</div></div><div class="feature-card"><h3>📌 Trao đổi nhanh</h3><p class="muted">Gửi tin nhắn về việc học, lịch học, bài tập hoặc nhận xét.</p></div></div>`;
+}
+function messageM(){
+  modal('✉️ Tin nhắn mới',`<form onsubmit="saveMessage(event)"><div class="form"><div class="field"><label>Người nhận</label><select name="to"><option>Giáo viên</option><option>Gia sư</option><option>Phụ huynh</option><option>Học sinh</option></select></div>${field('Nội dung','text','Nhập tin nhắn...',true,true)}</div><div class="modal-foot"><button type="button" class="btn gray" onclick="closeM()">Hủy</button><button class="btn primary">Gửi</button></div></form>`);
+}
+function saveMessage(e){
+  e.preventDefault();let f=new FormData(e.target);
+  db.messages.push({id:uid(),from:roles[role],to:f.get('to'),text:f.get('text'),date:today(),read:false});
+  db.notifications.unshift({id:uid(),title:'Tin nhắn mới',body:`${roles[role]} đã gửi một tin nhắn.`,date:today(),read:false,type:'message'});
+  save();closeM();render();go('comments');toast('Đã gửi tin nhắn');
+}
+function loginModal(force=false){
+  const current=session?.email||'';
+
+  modal('🔐 Đăng nhập VietPath',`
+    <form onsubmit="loginDemo(event)">
+      <div class="notice">
+        <b>🔐 Đăng nhập tài khoản</b><br>
+        Nhập email và mật khẩu bạn đã đăng ký.
+      </div>
+
+      <div class="form">
+        ${field('Email','email',current)}
+        ${field('Mật khẩu','password','')}
+      </div>
+
+      <p class="muted">
+        Chưa có tài khoản?
+        <button type="button" class="btn soft small" onclick="registerModal()">
+          Đăng ký ngay
+        </button>
+      </p>
+
+      <div class="modal-foot">
+        ${force?'':'<button type="button" class="btn gray" onclick="closeM()">Đóng</button>'}
+        <button class="btn primary">🔐 Đăng nhập</button>
+      </div>
+    </form>
+  `);
+}
+function loginDemo(e){
+  e.preventDefault();
+  const f=new FormData(e.target),email=String(f.get('email')||'').trim().toLowerCase(),password=String(f.get('password')||'');
+  if(!email||!password){alert('Vui lòng nhập email và mật khẩu.');return}
+  sb.auth.signInWithPassword({email,password}).then(async({data,error})=>{
+    if(error){alert('Đăng nhập không thành công: '+error.message);return}
+    await finishCloudLogin(data.user);
+  });
+}
+function registerModal(){
+  modal('✨ Tạo tài khoản VietPath',`<form onsubmit="registerAccount(event)">
+    <div class="form">
+      ${field('Họ và tên','name','Nguyễn Văn A')}${field('Email','email','example@gmail.com')}${field('Mật khẩu','password','')}${field('Nhập lại mật khẩu','password2','')}
+      <div class="field full"><label>Bạn là</label><select name="role" required onchange="document.getElementById('linkCodeBox').style.display=(this.value==='student'||this.value==='parent')?'grid':'none'"><option value="">-- Chọn vai trò --</option><option value="teacher">👩‍🏫 Giáo viên</option><option value="tutor">👨‍🏫 Gia sư</option><option value="parent">👨‍👩‍👧 Phụ huynh</option><option value="student">👧 Học sinh</option></select></div>
+      <div class="field full" id="linkCodeBox" style="display:none"><label>Mã liên kết (nếu giáo viên đã tạo)</label><input name="linkCode" placeholder="Ví dụ: VP-AB12CD"><span class="muted">Học sinh/Phụ huynh có thể nhập mã này sau khi đăng ký.</span></div>
+    </div>
+    <div class="modal-foot"><button type="button" class="btn gray" onclick="loginModal(true)">← Quay lại đăng nhập</button><button class="btn primary">✨ Tạo tài khoản</button></div>
+  </form>`);
+}
+async function registerAccount(e){
+  e.preventDefault();const f=new FormData(e.target),name=String(f.get('name')||'').trim(),email=String(f.get('email')||'').trim().toLowerCase(),password=String(f.get('password')||''),password2=String(f.get('password2')||''),userRole=String(f.get('role')||''),linkCode=String(f.get('linkCode')||'').trim().toUpperCase();
+  if(!name||!email||!userRole)return alert('Vui lòng nhập đủ họ tên, email và vai trò.');
+  if(password.length<6)return alert('Mật khẩu phải có ít nhất 6 ký tự.');
+  if(password!==password2)return alert('Mật khẩu nhập lại không khớp.');
+  if((userRole==='student'||userRole==='parent')&&!linkCode)alert('Bạn có thể đăng ký trước rồi liên kết bằng mã sau.');
+  const {data,error}=await sb.auth.signUp({email,password,options:{data:{name,role:userRole}}});
+  if(error)return alert('Đăng ký không thành công: '+error.message);
+  if(linkCode)localStorage.setItem('vp_pending_link',linkCode);
+  if(data.session){await finishCloudLogin(data.user);toast('🎉 Đăng ký thành công');}
+  else{closeM();alert('🎉 Đăng ký thành công. Nếu Supabase yêu cầu xác nhận email, hãy xác nhận email rồi quay lại đăng nhập.');loginModal(true)}
+}
+async function finishCloudLogin(user){
+  const {data:pr,error:pe}=await sb.from('vp_profiles').select('*').eq('id',user.id).maybeSingle();
+  if(pe){alert('Không đọc được hồ sơ: '+pe.message);return}
+  const profile=pr||{id:user.id,name:user.user_metadata?.name||user.email,role:user.user_metadata?.role||'student'};
+  session={id:user.id,name:profile.name,email:user.email,role:profile.role,studentId:null};role=session.role;
+  const {data:mem}=await sb.from('vp_workspace_members').select('workspace_id,role,student_id').eq('user_id',user.id).limit(1).maybeSingle();
+  session.studentId=mem?.student_id||null;sessionStorage.setItem('vp_session',JSON.stringify(session));
+  cloud.workspaceId=mem?.workspace_id||null;
+  if(!cloud.workspaceId&&(role==='teacher'||role==='tutor')){const {data:w,error}=await sb.rpc('vp_create_workspace',{p_name:'VietPath của '+session.name});if(error){alert('Không tạo được không gian dữ liệu: '+error.message);return}cloud.workspaceId=w;}
+  if(!cloud.workspaceId){const code=localStorage.getItem('vp_pending_link');if(code){const {data:w,error}=await sb.rpc('vp_join_workspace',{p_code:code});if(!error){cloud.workspaceId=w;localStorage.removeItem('vp_pending_link');const {data:m2}=await sb.from('vp_workspace_members').select('student_id').eq('user_id',user.id).eq('workspace_id',w).maybeSingle();session.studentId=m2?.student_id||null;sessionStorage.setItem('vp_session',JSON.stringify(session))}}}
+  if(cloud.workspaceId)await syncPull();else{db=seed();ensureExtras()}
+  cloud.ready=true;document.querySelector('.app').classList.add('ready');roleText.textContent=roles[role];render();go('home');
+}
+async function syncPull(){if(!cloud.workspaceId)return;const {data,error}=await sb.from('vp_workspace_data').select('data').eq('workspace_id',cloud.workspaceId).maybeSingle();if(error){console.warn(error);return}if(data?.data){db=data.data;ensureExtras();localStorage.setItem(K,JSON.stringify(db))}}
+let syncTimer=null;async function syncPush(){if(!cloud.workspaceId||cloud.busy)return;clearTimeout(syncTimer);syncTimer=setTimeout(async()=>{cloud.busy=true;const {error}=await sb.from('vp_workspace_data').upsert({workspace_id:cloud.workspaceId,data:db,updated_by:session.id,updated_at:new Date().toISOString()},{onConflict:'workspace_id'});cloud.busy=false;if(error)console.warn('VietPath sync:',error.message)},350)}
+async function createLinkCode(studentId){if(!cloud.workspaceId||!studentId)return alert('Tài khoản chưa được kết nối máy chủ.');const {data,error}=await sb.rpc('vp_create_link_code',{p_workspace_id:cloud.workspaceId,p_student_id:studentId});if(error)return alert('Không tạo được mã: '+error.message);modal('🔗 Mã liên kết học sinh',`<div class="hero"><h2 style="margin:0">${esc(data)}</h2><p class="muted">Gửi mã này cho tài khoản học sinh hoặc phụ huynh. Mã dùng để liên kết với đúng học sinh.</p></div><div class="modal-foot"><button class="btn primary" onclick="closeM()">Đóng</button></div>`)}
+async function logout(){await sb.auth.signOut();session=null;role=null;cloud={workspaceId:null,ready:false,busy:false};sessionStorage.removeItem('vp_session');document.querySelector('.app').classList.remove('ready');roleText.textContent='Chưa đăng nhập';loginModal(true)}
+
+function settings(){document.getElementById('settings').innerHTML=`<div class="section"><h2>⚙️ Cài đặt & dữ liệu</h2></div><div class="grid two"><div class="card"><h3>👤 Hồ sơ</h3><form onsubmit="saveSet(event)">${field('Tên hiển thị','name',db.settings.name)}${field('Năm học','year',db.settings.year)}<button class="btn primary">Lưu</button></form></div><div class="card"><h3>💾 Dữ liệu</h3><div class="actions"><button class="btn soft" onclick="exportJSON()">📤 Backup JSON</button><button class="btn gray" onclick="importJSON()">📥 Restore</button><button class="btn mint" onclick="templateX()">📄 Mẫu Excel</button><button class="btn primary" onclick="exportX()">📊 Xuất Excel</button>${canManage()?'<button class="btn red" onclick="resetData()">♻️ Reset</button>':''}</div></div></div><div class="card" style="margin-top:14px"><h3>📲 Cài app</h3><p>PWA chạy tốt trên điện thoại. Android/Chrome: chọn Cài đặt ứng dụng. iPhone/iPad: Safari → Chia sẻ → Thêm vào Màn hình chính.</p><button class="btn primary" onclick="install()">📲 Cài VietPath</button></div>`}
+function saveSet(e){e.preventDefault();let f=new FormData(e.target);db.settings.name=f.get('name');db.settings.year=f.get('year');save();render();toast('Đã lưu')}
+function roleModal(){if(!role){loginModal(true);return;}modal('👤 Vai trò hiện tại',`<div class="rolegrid"><div class="rolecard active"><div class="roleicon">${role==='teacher'?'👩‍🏫':role==='tutor'?'👨‍🏫':role==='parent'?'👨‍👩‍👧':'👧'}</div><b>${roles[role]}</b><div class="muted">${session?.email||''}</div></div></div><p class="muted" style="margin-top:12px">Muốn đổi vai trò, hãy bấm Đăng xuất rồi đăng nhập bằng tài khoản khác.</p>`)}function setRole(r){if(!r)return;role=r;session={...(session||{}),role:r};sessionStorage.setItem('vp_session',JSON.stringify(session));roleText.textContent=roles[r];closeM();render();toast('Vai trò: '+roles[r])}
+function del(c,id){if(confirm('Xóa mục này?')){let item=db[c].find(x=>x.id===id);if(role==='teacher'&&item?.ownerId!==session?.id){toast('Bạn không có quyền xóa mục này');return}db[c]=db[c].filter(x=>x.id!==id);save();render();toast('Đã xóa')}}function exportJSON(){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));a.download='vietpath-backup.json';a.click()}function importJSON(){let i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=()=>{let r=new FileReader;r.onload=()=>{try{db=JSON.parse(r.result);save();render();toast('Đã khôi phục')}catch{alert('JSON không hợp lệ')}};r.readAsText(i.files[0])};i.click()}function resetData(){if(confirm('Xóa toàn bộ dữ liệu của workspace hiện tại?')){db=seed();save();render();toast('Đã xóa dữ liệu')}}
+  function deleteClass(id){
+ const c=cl(id);
+if(!c)return;
+if((role==='teacher'||role==='tutor')&&c.ownerId!==session?.id){toast('Bạn không có quyền xóa lớp này');return}
+  if(!confirm(`Bạn có chắc muốn xóa lớp "${c.name}" không?\n\nHọc sinh trong lớp sẽ KHÔNG bị xóa.`))return;
+
+  // Bỏ liên kết lớp khỏi học sinh
+  db.students.forEach(s=>{
+    s.classIds=(s.classIds||[]).filter(x=>x!==id);
+  });
+
+  // Xóa lớp
+  db.classes=db.classes.filter(x=>x.id!==id);
+
+  // Xóa dữ liệu riêng của lớp
+  db.attendance=db.attendance.filter(x=>x.classId!==id);
+  db.points=db.points.filter(x=>x.classId!==id);
+  db.sessions=db.sessions.filter(x=>x.classId!==id);
+  db.events=db.events.filter(x=>x.classId!==id);
+
+  // Xóa bài tập giao cho lớp này
+  db.assignments=db.assignments.filter(x=>!(
+    x.target==='class' && x.targetId===id
+  ));
+
+  save();
+  closeM();
+  render();
+  go('classes');
+  toast('🗑️ Đã xóa lớp');
+}
+  function deleteStudent(id){
+  const s=stu(id);
+ if(!s)return;
+if((role==='teacher'||role==='tutor')&&s.ownerId!==session?.id){
+  toast('Bạn không có quyền xóa học sinh này');
+  return;
+}
+
+  if(!confirm(`Bạn có chắc muốn xóa học sinh "${s.name}" không?\n\nToàn bộ dữ liệu liên quan đến học sinh này sẽ được xóa.`))return;
+
+  // Bỏ học sinh khỏi tất cả các lớp
+  db.classes.forEach(c=>{
+    c.studentIds=(c.studentIds||[]).filter(x=>x!==id);
+  });
+
+  // Xóa học sinh
+  db.students=db.students.filter(x=>x.id!==id);
+
+  // Xóa dữ liệu liên quan
+  db.attendance=db.attendance.filter(x=>x.studentId!==id);
+  db.points=db.points.filter(x=>x.studentId!==id);
+  db.badges=db.badges.filter(x=>x.studentId!==id);
+  db.sessions=db.sessions.filter(x=>x.studentId!==id);
+  db.comments=db.comments.filter(x=>x.studentId!==id);
+  db.submissions=db.submissions.filter(x=>x.studentId!==id);
+  db.events=db.events.filter(x=>x.studentId!==id);
+
+  // Xóa bài tập giao riêng cho học sinh
+  db.assignments=db.assignments.filter(x=>!(
+    x.target==='student' && x.targetId===id
+  ));
+
+  save();
+  closeM();
+  render();
+  go('students');
+  toast('🗑️ Đã xóa học sinh');
+}
+function exportX(){if(!window.XLSX)return alert('Cần Internet để dùng Excel.');let wb=XLSX.utils.book_new();let hs=db.students.map(s=>({'Họ tên':s.name,'Khối':s.grade,'Lớp':s.classIds.map(i=>cl(i)?.name||'').join(', '),'SĐT':s.phone,'Phụ huynh':s.parent,'Điểm':pts(s.id),'Chuyên cần':ar(s.id)}));let dd=db.attendance.map(a=>({'Ngày':a.date,'Học sinh':stu(a.studentId)?.name||'','Lớp':cl(a.classId)?.name||'','Trạng thái':a.status,'Ghi chú':a.note}));let hp=db.sessions.map(s=>({'Ngày':s.date,'Học sinh':stu(s.studentId)?.name||'','Nội dung':s.topic,'Phút':s.minutes,'Học phí':s.fee,'Đã thu':s.paid,'Còn':s.fee-s.paid}));[['Học sinh',hs],['Điểm danh',dd],['Học phí',hp]].forEach(([n,d])=>XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(d),n));XLSX.writeFile(wb,'VietPath.xlsx')}
+function importX(){if(!window.XLSX)return alert('Cần Internet để dùng Excel.');let i=document.createElement('input');i.type='file';i.accept='.xlsx,.xls,.csv';i.onchange=()=>{let r=new FileReader;r.onload=e=>{let wb=XLSX.read(e.target.result,{type:'array'}),rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]),n=0;rows.forEach(x=>{let name=x['Họ tên']||x['Tên'];if(!name)return;let cn=x['Lớp']||'',c=db.classes.find(c=>c.name===cn);if(cn&&!c){c={id:uid(),ownerId:session?.id||'',name:cn,grade:String(x['Khối']||''),year:x['Năm học']||db.settings.year,teacher:db.settings.name,desc:'',studentIds:[]};db.classes.push(c)}let s={id:uid(),ownerId:session?.id||'',name:String(name),grade:String(x['Khối']||c?.grade||''),avatar:avs[n%avs.length],phone:String(x['SĐT']||''),parent:String(x['Phụ huynh']||''),note:String(x['Ghi chú']||''),classIds:c?[c.id]:[]};db.students.push(s);if(c)c.studentIds.push(s.id);n++});save();render();toast('Đã nhập '+n+' học sinh')};r.readAsArrayBuffer(i.files[0])};i.click()}
+function templateX(){let wb=XLSX.utils.book_new(),ws=XLSX.utils.json_to_sheet([{'Họ tên':'Nguyễn Văn A','Khối':'4','Lớp':'4A1','Năm học':'2026–2027','SĐT':'','Phụ huynh':'','Ghi chú':''}]);XLSX.utils.book_append_sheet(wb,ws,'Học sinh');XLSX.writeFile(wb,'Mau-VietPath.xlsx')}
+function applyRoleUI(){const hide={tools:!canManage(),tutor:role==='student',classes:false,students:false,materials:false,assignments:false,attendance:false,points:false,badges:false,stats:false,calendar:false,practice:false,comments:false,notifications:false,settings:false};document.querySelectorAll('.nav button').forEach(b=>{b.style.display=hide[b.dataset.p]?'none':''})}
+function render(){
+  ensureExtras();
+  applyRoleUI();
+  roleText.textContent=role?roles[role]:'Chưa đăng nhập';
+
+  home();
+  classes();
+  students();
+  materials();
+  assignments();
+  attendance();
+  pointsPage();
+  badges();
+  stats();
+  calendar();
+  tools();
+  practice();
+  tutor();
+  messages();
+  notifications();
+  settings();
+}
+
+async function initVietPath(){ensureExtras();const {data:{session:s}}=await sb.auth.getSession();if(s){await finishCloudLogin(s.user)}else{document.querySelector('.app').classList.add('ready');render();setTimeout(()=>loginModal(true),250)}}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferInstall=e;install.style.display='inline-block'});async function install(){if(deferInstall){deferInstall.prompt();deferInstall=null}else toast('Hãy mở menu trình duyệt và chọn Cài đặt ứng dụng')}if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+initVietPath();
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name":"VietPath",
+  "short_name":"VietPath",
+  "start_url":"./index.html",
+  "display":"standalone",
+  "background_color":"#eff9ff",
+  "theme_color":"#1599e8",
+  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml"}]
+}
