@@ -46,8 +46,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:fle
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const K='vietpath_complete_v2',roles={teacher:'Giáo viên',tutor:'Gia sư',parent:'Phụ huynh',student:'Học sinh'},cats=['Đọc hiểu','Chính tả','Từ và câu','Viết','Luyện tập','Ôn tập','Khác'],avs=['🐰','🦊','🐼','🐯','🐨','🐸','🐱','🐶','🦄','🐻','🐹','🐧'];
-const SUPABASE_URL='https://uukwgcgehuqkedoybakz.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY='sb_publishable_4zpYou43x5KeOGiJjjdh7w_TBbypthW';
+const SUPABASE_URL='https://krxwsxhcznevvrfsxybj.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_bJiqUfPOtNCws8p9KB0pHQ_h9HmCXIH';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
 let session=null;try{session=JSON.parse(sessionStorage.getItem('vp_session')||'null')}catch(e){session=null}let role=session?.role||null,page='home',deferInstall=null,timer={base:300,left:300,id:null};
 let cloud={workspaceId:null,ready:false,busy:false};
